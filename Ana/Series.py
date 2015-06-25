@@ -1,4 +1,3 @@
-import conectando_db
 import datetime
 import SelecaoRegistro
 
@@ -75,9 +74,8 @@ class Series(object):
                 data = datetime.datetime(i, j, dia+1, hora, 00).strftime('%d/%m/%Y %H:%M')
                 self.ListaMaxMensal.append([data, max(self.dic[i][j])])
 
-'''
+
 s = Series()
 s.maxMensal('BancoHidro', 'ANA', 1931, 1940)
 for i in s.ListaMaxMensal:
     print(i)
-'''

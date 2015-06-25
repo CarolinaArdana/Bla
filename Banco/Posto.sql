@@ -1,0 +1,8 @@
+CREATE TABLE Posto(
+    Posto_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    Tipo_Posto_ID INTEGER NOT NULL,
+    Fonte_ID INTEGER NOT NULL,
+    Codigo_Ana VARCHAR(20) NULL,
+    FOREIGN KEY(Tipo_Posto_ID) REFERENCES Tipo_Posto(Tipo_Posto_ID),
+    FOREIGN KEY(Fonte_ID) REFERENCES Fonte(Fonte_ID)
+);

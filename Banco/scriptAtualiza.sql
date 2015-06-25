@@ -1,0 +1,1 @@
+UPDATE Dados SET Dados = %s WHERE Datas = %s

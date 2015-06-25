@@ -1,0 +1,1 @@
+UPDATE serie_temporal SET Dado = ? WHERE Data_e_Hora = ?

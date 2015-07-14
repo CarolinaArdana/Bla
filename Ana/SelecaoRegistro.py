@@ -48,9 +48,10 @@ class Selecao(object):
         return self.db.cursor.fetchall()[0][0]
 
     def lerSerieTemporal(self):
-        self.db.cursor.execute("SELECT Serie_Temporal_ID FROM Serie_Temporal")
+        self.db.cursor.execute("SELECT MAX (Serie_Temporal_ID) FROM Serie_Temporal")
         id = self.db.cursor.fetchone()
-        if id == None:
+        print(id)
+        if id[0] == None:
             id = 0
         else:
             id = int(id[0])

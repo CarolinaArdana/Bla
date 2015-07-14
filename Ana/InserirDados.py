@@ -19,7 +19,6 @@ class inserirDados(object):
             nDados += 1
             if nDados == 400 or nDadosAdd == len(self.dados):
                 sql = "INSERT INTO Serie_Temporal(Serie_Temporal_ID, Data_e_Hora, Dado) VALUES" + stri[1:]
-                print(sql)
                 self.db.cursor.execute(sql)
                 self.db.commit_db()
                 print('%d por cento  Concluído' % (nDadosAdd/len(self.dados)*100))

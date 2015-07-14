@@ -10,7 +10,7 @@ class run():
 
         c = (2,3,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
              31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47)
-        '''
+
         listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média']
         listaVariavel = ['Precipitação', 'Intercepção', 'Evapotranspiração', 'Infiltração', 'Escoamento']
         listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
@@ -51,12 +51,11 @@ class run():
         listadados = ListaDadosDB.LerArquivo(c, "vazoes")
         listadados.DadosAna()
         GravaBanco.GravaBanco(listadados.dados, 'BancoHidro', 'Serie_Temporal').atualizarDados()
-        '''
+
         ListaDados = []
         Posto_ID = s.Selecao('BancoHidro').lerPosto(s.Selecao('BancoHidro').lerTipoPosto('Fluviométrico'),
                                                     s.Selecao('BancoHidro').lerFonte('ANA'))
         Arquivo_Fonte_Data = 'ANA ' + str(datetime.datetime.now().year)
-
         Variavel_ID = s.Selecao('BancoHidro').lerVariavel('Escoamento')
         Tipo_Dado_ID = s.Selecao('BancoHidro').lerNivelConsistencia('Bruto e Consistido')
         Discretizacao_ID = s.Selecao('BancoHidro').lerDiscretizacao('Dia')
@@ -67,6 +66,7 @@ class run():
         print(ListaDados)
         GravaBanco.GravaBanco(ListaDados, 'BancoHidro', 'Serie_Original').inserirDados()
         '''
+        '''
         ano = anoI_e_anoF.anoI_e_anoF('vazoes.txt')
         ano.anos_I_F()
         listadados = Datas.Datas(ano.anoInicio, ano.anoFim)
@@ -75,4 +75,18 @@ class run():
         listadados = ListaDadosDB.LerArquivo(nome_arq="xingo")
         listadados.DadosOns()
         GravaBanco.GravaBanco(listadados.dados, 'BancoHidro', 'Serie_Temporal').atualizarDados()
-        '''
+
+        ListaDados = []
+        Posto_ID = s.Selecao('BancoHidro').lerPosto(s.Selecao('BancoHidro').lerTipoPosto('Fluviométrico'),
+                                                    s.Selecao('BancoHidro').lerFonte('ONS'))
+        Arquivo_Fonte_Data = 'ONS ' + str(datetime.datetime.now().year)
+        Variavel_ID = s.Selecao('BancoHidro').lerVariavel('Escoamento')
+        Tipo_Dado_ID = s.Selecao('BancoHidro').lerNivelConsistencia('Bruto')
+        Discretizacao_ID = s.Selecao('BancoHidro').lerDiscretizacao('Dia')
+        Unidade_ID = s.Selecao('BancoHidro').lerUnidade('m³/s')
+        Serie_Temporal_ID = s.Selecao('BancoHidro').lerSerieTemporal()
+        ListaDados = [[Posto_ID, Arquivo_Fonte_Data, Variavel_ID, Tipo_Dado_ID, Discretizacao_ID,
+                      Unidade_ID,Serie_Temporal_ID]]
+        print(ListaDados)
+
+        GravaBanco.GravaBanco(ListaDados, 'BancoHidro', 'Serie_Original').inserirDados()

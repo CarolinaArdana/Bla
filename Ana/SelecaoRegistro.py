@@ -7,7 +7,7 @@ class Selecao(object):
         self.db = conectando_db.Connect(self.nome_db)
 
     def lerDiscretizacao(self, Discretizacao):
-        sql = "SELECT Discretização_ID FROM Discretizacao WHERE Tipo = '%s'" % Discretizacao
+        sql = "SELECT Discretizacao_ID FROM Discretizacao WHERE Tipo = '%s'" % Discretizacao
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchall()[0][0]
 
@@ -22,7 +22,7 @@ class Selecao(object):
         return self.db.cursor.fetchall()[0][0]
 
     def lerPosto(self, Tipo_Posto_ID, Fonte_ID):
-        sql = "SELECT Posto_ID FROM Tipo_Posto WHERE " \
+        sql = "SELECT Posto_ID FROM Posto WHERE " \
               "Tipo_Posto_ID = %s and Fonte_ID = %s" % (Tipo_Posto_ID, Fonte_ID)
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchall()[0][0]
@@ -47,15 +47,11 @@ class Selecao(object):
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchall()[0][0]
 
-    def lerSerieTemporal(self, fonte, anoInicio = 1931, anoFinal = 2014):
-        datas = Datas.Datas(anoInicio, anoFinal, fonte)
-        datas.Rdata()
-        stri = ''
-        for i in datas.ListaDatas:
-            r = str("'%s', " % i[1])
-            stri += r
-        sql = "SELECT * FROM serie_temporal WHERE Data_e_Hora in (" + stri[:-2] + ")"
-        self.db.cursor.execute(sql)
-        Lista = self.db.cursor.fetchall()
-        self.db.close_db()
-        return Lista
+    def lerSerieTemporal(self):
+        self.db.cursor.execute("SELECT Serie_Temporal_ID FROM Serie_Temporal")
+        id = self.db.cursor.fetchone()
+        if id == None:
+            id = 0
+        else:
+            id = int(id[0])
+        return id

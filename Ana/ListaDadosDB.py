@@ -63,7 +63,7 @@ class LerArquivo(object):
             self.data = datetime.datetime(self.ano,
                                           self.mes,
                                           self.dia,
-                                          12, 00).strftime('%d/%m/%Y %H:%M')
+                                          9, 00).strftime('%d/%m/%Y %H:%M')
             self.dados.append([self.vazao, self.data])
             self.consistencia.append([1, self.data])
         self.arquivo.close()

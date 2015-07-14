@@ -10,7 +10,7 @@ class run():
 
         c = (2,3,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
              31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47)
-
+        '''
         listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média']
         listaVariavel = ['Precipitação', 'Intercepção', 'Evapotranspiração', 'Infiltração', 'Escoamento']
         listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
@@ -41,14 +41,23 @@ class run():
         listaPosto = [Tipo_Posto_ID, Fonte_ID, -9999]
         listaDados.append(listaPosto)
         GravaBanco.GravaBanco(listaDados, 'BancoHidro', 'Posto').inserirDados()
+        '''
+        Codigo_ANA = ListaDadosDB.LerArquivo(c,'vazoesp')
+        Codigo_ANA.DadosAna()
+        Fonte_ID = s.Selecao('BancoHidro').lerFonte('ANA')
+        if s.Selecao('BancoHidro').lerPosto(Fonte_ID, Codigo_ANA.codigo) == None:
+            Tipo_Posto_ID = s.Selecao('BancoHidro').lerTipoPosto('Fluviométrico')
+            listaPosto = [[Tipo_Posto_ID, Fonte_ID, Codigo_ANA.codigo]]
+            GravaBanco.GravaBanco(listaPosto, 'BancoHidro', 'Posto').inserirDados()
+
 
         #Grava as datas na tabela Serie_Temporal
-        ano = anoI_e_anoF.anoI_e_anoF('vazoes.txt')
+        ano = anoI_e_anoF.anoI_e_anoF('vazoesp')
         ano.anos_I_F()
         listadados = Datas.Datas(ano.anoInicio, ano.anoFim)
         listadados.Rdata()
         GravaBanco.GravaBanco(listadados.ListaDatas,'BancoHidro','Serie_Temporal').inserirDados()
-        listadados = ListaDadosDB.LerArquivo(c, "vazoes")
+        listadados = ListaDadosDB.LerArquivo(c, "vazoesp")
         listadados.DadosAna()
         GravaBanco.GravaBanco(listadados.dados, 'BancoHidro', 'Serie_Temporal').atualizarDados()
 
@@ -65,7 +74,7 @@ class run():
                       Unidade_ID,Serie_Temporal_ID]]
         print(ListaDados)
         GravaBanco.GravaBanco(ListaDados, 'BancoHidro', 'Serie_Original').inserirDados()
-        '''
+
         '''
         ano = anoI_e_anoF.anoI_e_anoF('vazoes.txt')
         ano.anos_I_F()
@@ -90,3 +99,4 @@ class run():
         print(ListaDados)
 
         GravaBanco.GravaBanco(ListaDados, 'BancoHidro', 'Serie_Original').inserirDados()
+        '''

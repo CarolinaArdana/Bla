@@ -21,11 +21,11 @@ class Selecao(object):
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchall()[0][0]
 
-    def lerPosto(self, Tipo_Posto_ID, Fonte_ID):
+    def lerPosto(self, Fonte_ID, Codigo_ANA):
         sql = "SELECT Posto_ID FROM Posto WHERE " \
-              "Tipo_Posto_ID = %s and Fonte_ID = %s" % (Tipo_Posto_ID, Fonte_ID)
+              "Fonte_ID = %s and Codigo_ANA = %s" % (Fonte_ID, Codigo_ANA)
         self.db.cursor.execute(sql)
-        return self.db.cursor.fetchall()[0][0]
+        return self.db.cursor.fetchone()
 
     def lerReducao(self, Reducao):
         sql = "SELECT Reducao_ID FROM Reducao WHERE Tipo = '%s'" % Reducao

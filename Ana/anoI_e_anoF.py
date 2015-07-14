@@ -3,7 +3,7 @@ import StringArquivos
 class anoI_e_anoF(object):
     def __init__(self, nome_arq):
         self.nome_arq = nome_arq
-        self.arquivo = open(nome_arq,'r')
+        self.arquivo = open('%s.txt' % self.nome_arq, 'r')
         self.anoInicio = 3000
         self.anoFim = 1900
         self.cont = 0

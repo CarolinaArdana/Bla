@@ -1,13 +1,16 @@
 import conectando_db
 import SelecaoRegistro as s
-class inserirDados(object):
 
+class inserirDados(object):
     def __init__(self, dados, nome_db):
-        self.dados = dados
+        if (type(dados) == type([]) or type(dados) == type({}) or type(dados) == type(())):
+            self.dados = dados
+        else:
+            self.dados = dados
         self.nome_db = nome_db
         self.db = conectando_db.Connect(self.nome_db)
 
-    def inserirSerieTemporal(self):
+    def Serie_Temporal(self):
         stri = ''
         nDados = 0
         nDadosAdd = 0
@@ -27,17 +30,17 @@ class inserirDados(object):
 
         #gravando no bc
         self.db.close_db()
-    def inserirPosto(self):
-        stri = ''
-        for i in self.dados:
-            r = str(", (%s, %s, '%s')" % (i[0], i[1], i[2]))
-            stri += r
-        sql = "INSERT INTO Posto(Tipo_Posto_ID, Fonte_ID, Codigo_Ana) VALUES" + stri[1:]
-        print(sql)
-        self.db.cursor.execute(sql)
-        self.db.commit_db()
+    def Posto(self, Tipo, Fonte):
+        Tipo_Posto_ID = s.Selecao(self.nome_db).lerTipoPosto(Tipo)
+        Fonte_ID = s.Selecao(self.nome_db).lerFonte(Fonte)
+        Codigo = self.dados
+        if (s.Selecao('BancoHidro').lerPosto(Fonte_ID, Codigo) == None):
+            sql = "INSERT INTO Posto(Tipo_Posto_ID, Fonte_ID, Codigo_Ana) "\
+                  "VALUES(%s, %s,'%s')" %(Tipo_Posto_ID, Fonte_ID, Codigo)
+            self.db.cursor.execute(sql)
+            self.db.commit_db()
         self.db.close_db()
-    def inserirSerieOriginal(self):
+    def Serie_Original(self):
         stri = ''
         for i in self.dados:
             r = str(", (%s, '%s', %s, %s, %s, %s, %s)" % (i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
@@ -53,7 +56,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirSerieReduzida(self):
+    def Serie_Reduzida(self):
         stri = ''
         for i in self.dados:
             r = str(", (%i, %i, %i, %i)" % (i[0], i[1], i[2], i[3]))
@@ -66,7 +69,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirNivelConsistencia(self):
+    def Nivel_Consistencia(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -75,7 +78,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirTipoPosto(self):
+    def Tipo_Posto(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -84,7 +87,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirUnidade(self):
+    def Unidade(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -93,7 +96,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirVariavel(self):
+    def Variavel(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -102,7 +105,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirFonte(self):
+    def Fonte(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -111,7 +114,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirDiscretizacao(self):
+    def Discretizacao(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)
@@ -120,7 +123,7 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def inserirReducao(self):
+    def Reducao(self):
         stri = ''
         for i in self.dados:
             r = str(", ('%s')" % i)

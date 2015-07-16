@@ -17,6 +17,10 @@ class LerArquivo(object):
         self.vazao = None
         self.ListaDatas = []
         self.dados = []
+        self.anoInicio = 3000
+        self.anoFim = 1900
+
+
 
     def DadosAna(self):
         for linha in self.arquivo.readlines():
@@ -48,6 +52,10 @@ class LerArquivo(object):
                             self.vazao = '-9999,9'
                         self.consistencia.append([cons, self.data])
                         self.dados.append([self.vazao.replace(',','.'), self.data])
+                        if self.anoInicio >= self.ano:
+                            self.anoInicio = self.ano
+                        if self.anoFim <= self.ano:
+                            self.anoFim = self.ano
                     except ValueError:
                         break
 

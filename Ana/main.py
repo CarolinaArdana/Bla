@@ -12,7 +12,7 @@ class run():
         self.DatasSerie = None
         self.Tipo_Posto = None
 
-    def getDados(self, NomeArquivo, Fonte, Tipo_Posto, ):
+    def getDados(self, NomeArquivo, Fonte, Tipo_Posto):
         c = (2,3,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
          31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47)
         LerANA = DadosArq.LerArquivo(c,NomeArquivo)
@@ -30,9 +30,6 @@ class run():
         self.Fonte = Fonte
         self.CodigoANA = LerANA.codigo
         self.DatasSerie = Datas.ListaDatas
-
-
-
 '''
 listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média']
 listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
@@ -40,19 +37,19 @@ listaVariavel = ['Precipitação', 'Intercepção', 'Evapotranspiração', 'Infi
 listaUnidade = ['m³/s', 'mm', 'l/s']
 listaNivelConstencia = ['Consistido', 'Bruto', 'Bruto e Consistido']
 listaDiscretizacao = ['Dia', 'Mês', 'Ano']
-listaFonte = ['ANA', 'ONS']
-
-inserir.inserirDados(listaReducao, NomeBD).Reducao()
-inserir.inserirDados(listaVariavel, NomeBD).Variavel()
-inserir.inserirDados(listaTipoDePosto, NomeBD).Tipo_Posto()
-inserir.inserirDados(listaUnidade, NomeBD).Unidade()
-inserir.inserirDados(listaNivelConstencia, NomeBD).Nivel_Consistencia()
-inserir.inserirDados(listaDiscretizacao, NomeBD).Discretizacao()
-inserir.inserirDados(listaFonte, NomeBD).Fonte()
 '''
 get = run('BancoHidro')
-get.getDados('vazoes', 'ANA', 'Fluviométrico')
-inserir.inserirDados(get.Fonte, get.NomeBD).Fonte()
+get.getDados('vazoesp', 'ANA', 'Fluviométrico')
+'''
+inserir.inserirDados(listaReducao, get.NomeBD).Reducao()
+inserir.inserirDados(listaVariavel, get.NomeBD).Variavel()
+inserir.inserirDados(listaTipoDePosto, get.NomeBD).Tipo_Posto()
+inserir.inserirDados(listaUnidade, get.NomeBD).Unidade()
+inserir.inserirDados(listaNivelConstencia, get.NomeBD).Nivel_Consistencia()
+inserir.inserirDados(listaDiscretizacao, get.NomeBD).Discretizacao()
+'''
+
+inserir.inserirDados(get.Fonte, get.NomeBD).Fonte(get.Fonte)
 inserir.inserirDados(get.CodigoANA, get.NomeBD).Posto(get.Tipo_Posto, get.Fonte)
 inserir.inserirDados(get.DatasSerie, get.NomeBD).Serie_Temporal()
 atualizar.atualizaDados(get.dados, get.NomeBD).atualizarDadosSerieTemporal()

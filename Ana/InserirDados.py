@@ -1,5 +1,5 @@
 import conectando_db
-import SelecaoRegistro as s
+import Ana.SelecaoRegistro as s
 
 class inserirDados(object):
     def __init__(self, dados, nome_db):
@@ -40,7 +40,7 @@ class inserirDados(object):
             print(sql)
             self.db.cursor.execute(sql)
             self.db.commit_db()
-        self.db.close_db()
+            self.db.close_db()
     def Serie_Original(self):
         stri = ''
         for i in self.dados:
@@ -106,15 +106,12 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def Fonte(self):
-        stri = ''
-        for i in self.dados:
-            r = str(", ('%s')" % i)
-            stri += r
-        sql = "INSERT INTO Fonte(Fonte) VALUES" + stri[1:]
-        self.db.cursor.execute(sql)
-        self.db.commit_db()
-        self.db.close_db()
+    def Fonte(self, Fonte):
+        if s.Selecao(self.nome_db).lerFonte(Fonte) == None:
+            sql = "INSERT INTO Fonte(Fonte) VALUES('%s')" % self.dados
+            self.db.cursor.execute(sql)
+            self.db.commit_db()
+            self.db.close_db()
     def Discretizacao(self):
         stri = ''
         for i in self.dados:

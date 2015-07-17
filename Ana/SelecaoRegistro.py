@@ -13,19 +13,22 @@ class Selecao(object):
 
     def lerFonte(self, Fonte):
         sql = "SELECT Fonte_ID FROM Fonte WHERE Fonte = '%s'" % Fonte
+        print(sql)
         self.db.cursor.execute(sql)
-        return self.db.cursor.fetchall()[0][0]
+        return self.db.cursor.fetchone()[0]
 
     def lerNivelConsistencia(self, Nivel):
         sql = "SELECT Tipo_Dados_ID FROM Nivel_Consistencia WHERE Nivel = '%s'" % Nivel
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchall()[0][0]
 
-    def lerPosto(self, Fonte_ID, Codigo_ANA):
+    def lerPosto(self, Fonte, Codigo_ANA):
+        Fonte_ID = self.lerFonte(Fonte)
         sql = "SELECT Posto_ID FROM Posto WHERE " \
               "Fonte_ID = %s and Codigo_ANA = %s" % (Fonte_ID, Codigo_ANA)
+        print(sql)
         self.db.cursor.execute(sql)
-        return self.db.cursor.fetchone()
+        return self.db.cursor.fetchone()[0]
 
     def lerReducao(self, Reducao):
         sql = "SELECT Reducao_ID FROM Reducao WHERE Tipo = '%s'" % Reducao

@@ -9,8 +9,8 @@ class LerArquivo(object):
         self.arquivo = open('%s.txt' % self.nome_arq, 'r')
         self.ins_db = InserirDados
         self.dia = 0
-        self.mes = None
-        self.ano = None
+        self.mes = 0
+        self.ano = 0
         self.data = None
         self.consistencia = []
         self.codigo = None
@@ -20,7 +20,11 @@ class LerArquivo(object):
         self.anoInicio = 3000
         self.anoFim = 1900
 
-
+    def Datas_Inio_Fim(self, ano):
+        if self.anoInicio >= ano:
+            self.anoInicio = ano
+        if self.anoFim <= ano:
+            self.anoFim = ano
 
     def DadosAna(self):
         for linha in self.arquivo.readlines():
@@ -36,6 +40,7 @@ class LerArquivo(object):
                         self.dia += 1
                         self.mes = int(ListaLinha.listaDados[1][1:3])
                         self.ano = int(ListaLinha.listaDados[1][4:8])
+                        self.Datas_Inio_Fim(self.ano)
                         self.data = datetime.datetime(self.ano,
                                                       self.mes,
                                                       self.dia,
@@ -52,10 +57,6 @@ class LerArquivo(object):
                             self.vazao = '-9999,9'
                         self.consistencia.append([cons, self.data])
                         self.dados.append([self.vazao.replace(',','.'), self.data])
-                        if self.anoInicio >= self.ano:
-                            self.anoInicio = self.ano
-                        if self.anoFim <= self.ano:
-                            self.anoFim = self.ano
                     except ValueError:
                         break
 
@@ -67,6 +68,8 @@ class LerArquivo(object):
             self.dia = int(data[0:2])
             self.mes = int(data[3:5])
             self.ano = int(data[6:12])
+            self.Datas_Inio_Fim(self.ano)
+            self.codigo = -9999
             self.vazao = vazao[0:-1]
             self.data = datetime.datetime(self.ano,
                                           self.mes,

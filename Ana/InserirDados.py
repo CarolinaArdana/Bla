@@ -30,13 +30,14 @@ class inserirDados(object):
 
         #gravando no bc
         self.db.close_db()
-    def Posto(self, Tipo, Fonte):
-        Tipo_Posto_ID = s.Selecao(self.nome_db).lerTipoPosto(Tipo)
+    def Posto(self, Tipo_Posto, Fonte):
+        Tipo_Posto_ID = s.Selecao(self.nome_db).lerTipoPosto(Tipo_Posto)
         Fonte_ID = s.Selecao(self.nome_db).lerFonte(Fonte)
         Codigo = self.dados
-        if (s.Selecao('BancoHidro').lerPosto(Fonte_ID, Codigo) == None):
+        if (s.Selecao('BancoHidro').lerPosto(Fonte, Codigo) == None):
             sql = "INSERT INTO Posto(Tipo_Posto_ID, Fonte_ID, Codigo_Ana) "\
                   "VALUES(%s, %s,'%s')" %(Tipo_Posto_ID, Fonte_ID, Codigo)
+            print(sql)
             self.db.cursor.execute(sql)
             self.db.commit_db()
         self.db.close_db()

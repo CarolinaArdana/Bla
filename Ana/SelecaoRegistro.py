@@ -58,7 +58,7 @@ class Selecao(object):
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
 
-    def lerSerieTemporal(self):
+    def lerSerieTemporalID(self):
         self.db.cursor.execute("SELECT MAX (Serie_Temporal_ID) FROM Serie_Temporal")
         id = self.db.cursor.fetchone()
         print(id)
@@ -67,3 +67,20 @@ class Selecao(object):
         else:
             id = int(id[0])
         return id
+
+    def lerSerieTemporalDados(self, SerieTemporalID, anoInicio = 1931, anoFinal = 2014):
+        datas = Datas.Datas(anoInicio, anoFinal)
+        datas.Rdata()
+        stri = ''
+        stri2 = ''
+        for i in datas.ListaDatas:
+            r = str("'%s', " % i[1])
+            stri2 += "%s, " % SerieTemporalID
+            stri += r
+        sql = "SELECT * FROM serie_temporal WHERE Serie_Temporal_ID in (" + stri2[:-2] + ")" + " and Data_e_Hora in (" + stri[:-2] + ")"
+        self.db.cursor.execute(sql)
+        Lista = self.db.cursor.fetchall()
+        for i in Lista:
+            print(i)
+        self.db.close_db()
+        return Lista

@@ -30,16 +30,15 @@ class run():
         self.Fonte = Fonte
         self.CodigoANA = LerANA.codigo
         self.DatasSerie = Datas.ListaDatas
-'''
+
 listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média']
 listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
 listaVariavel = ['Precipitação', 'Intercepção', 'Evapotranspiração', 'Infiltração', 'Escoamento']
 listaUnidade = ['m³/s', 'mm', 'l/s']
 listaNivelConstencia = ['Consistido', 'Bruto', 'Bruto e Consistido']
 listaDiscretizacao = ['Dia', 'Mês', 'Ano']
-'''
+
 get = run('BancoHidro')
-get.getDados('vazoesp', 'ANA', 'Fluviométrico')
 '''
 inserir.inserirDados(listaReducao, get.NomeBD).Reducao()
 inserir.inserirDados(listaVariavel, get.NomeBD).Variavel()
@@ -48,11 +47,13 @@ inserir.inserirDados(listaUnidade, get.NomeBD).Unidade()
 inserir.inserirDados(listaNivelConstencia, get.NomeBD).Nivel_Consistencia()
 inserir.inserirDados(listaDiscretizacao, get.NomeBD).Discretizacao()
 '''
+for i in [['vazoes', 'ANA'],['vazoesp', 'ANA'],['xingo', 'ONS']]:
+    get.getDados(i[0], i[1], 'Fluviométrico')
 
-inserir.inserirDados(get.Fonte, get.NomeBD).Fonte(get.Fonte)
-inserir.inserirDados(get.CodigoANA, get.NomeBD).Posto(get.Tipo_Posto, get.Fonte)
-inserir.inserirDados(get.DatasSerie, get.NomeBD).Serie_Temporal()
-atualizar.atualizaDados(get.dados, get.NomeBD).atualizarDadosSerieTemporal()
+    inserir.inserirDados(get.Fonte, get.NomeBD).Fonte(get.Fonte)
+    inserir.inserirDados(get.CodigoANA, get.NomeBD).Posto(get.Tipo_Posto, get.Fonte)
+    inserir.inserirDados(get.DatasSerie, get.NomeBD).Serie_Temporal()
+    atualizar.atualizaDados(get.dados, get.NomeBD).atualizarDadosSerieTemporal()
 
 '''
 listadados = ListaDadosDB.LerArquivo(c, "vazoesp")

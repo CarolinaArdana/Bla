@@ -10,8 +10,15 @@ class Series(object):
     def maxAnual(self, nome_db, fonte, anoInicio = 1931, anoFinal = 2014):
         vazao = []
         auxA = anoInicio
-        s = SelecaoRegistro.Selecao(nome_db).lerSerieTemporal(fonte, anoInicio, anoFinal)
-        for i in s:
+        s = SelecaoRegistro.Selecao(nome_db).lerSerieTemporalDados(fonte, anoInicio, anoFinal)
+        for ano in range(anoInicio, anoFinal+1):
+            for i in s:
+                if int(i[1][6:10]) == ano:
+                    vazao.append(float(i[2]))
+            self.dic[ano] = vazao
+        print(self.dic)
+
+    '''
             ano = int(i[1][6:10])
             if ano == auxA:
                 vazao.append(float(i[2]))
@@ -27,20 +34,16 @@ class Series(object):
             l = list(self.dic[i])
             maxi = max(self.dic[i])
             indice = l.index(maxi)
-            if fonte == 'ANA':
-                hora = 9
-            else:
-                hora = 12
-            data = (datetime.datetime(i,1,1,hora,00) +
+            data = (datetime.datetime(i,1,1, 9,00) +
                     datetime.timedelta(indice)).strftime('%d/%m/%Y %H:%M')
             self.ListaMaxAnual.append([data, maxi])
+    '''
 
-
-    def maxMensal(self, nome_db, fonte, anoInicio = 1931, anoFinal = 2014):
-        s = SelecaoRegistro.Selecao(nome_db).lerSerieTemporal(fonte, anoInicio, anoFinal)
+    def maxMensal(self, nome_db, SerieTemporalID):
+        s = SelecaoRegistro.Selecao(nome_db).lerSerieTemporalDados(SerieTemporalID)
         auxDic = {}
         vazao = []
-        auxA = anoInicio
+        auxA = 1931
         auxM = 1
         for i in s:
             ano = int(i[1][6:10])
@@ -67,15 +70,9 @@ class Series(object):
             for j in listames:
                 l = list(self.dic[i][j])
                 dia = l.index(max(self.dic[i][j]))
-                if fonte == 'ANA':
-                    hora = 9
-                else:
-                    hora = 12
-                data = datetime.datetime(i, j, dia+1, hora, 00).strftime('%d/%m/%Y %H:%M')
+                data = datetime.datetime(i, j, dia+1, 9, 00).strftime('%d/%m/%Y %H:%M')
                 self.ListaMaxMensal.append([data, max(self.dic[i][j])])
 
 
 s = Series()
-s.maxMensal('BancoHidro', 'ANA', 1931, 1940)
-for i in s.ListaMaxMensal:
-    print(i)
+s.maxAnual('BancoHidro', 1)

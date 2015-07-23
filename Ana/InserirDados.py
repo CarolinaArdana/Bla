@@ -14,13 +14,13 @@ class inserirDados(object):
         stri = ''
         nDados = 0
         nDadosAdd = 0
-        id = s.Selecao(self.nome_db).lerSerieTemporal()+1
+        id = s.Selecao(self.nome_db).lerSerieTemporalID()+1
         for i in self.dados:
             r = str(", (%s, '%s', '%s')" % (id, i[1], i[0]))
             stri += r
             nDadosAdd += 1
             nDados += 1
-            if nDados == 400 or nDadosAdd == len(self.dados):
+            if nDados == 500 or nDadosAdd == len(self.dados):
                 sql = "INSERT INTO Serie_Temporal(Serie_Temporal_ID, Data_e_Hora, Dado) VALUES" + stri[1:]
                 self.db.cursor.execute(sql)
                 self.db.commit_db()

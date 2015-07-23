@@ -1,5 +1,5 @@
 import conectando_db
-import SelecaoRegistro as s
+import Ana.SelecaoRegistro as s
 
 class atualizaDados(object):
 
@@ -12,17 +12,16 @@ class atualizaDados(object):
         stri = ''
         nDados = 0
         nDadosAdd = 0
+        id = s.Selecao('BancoHidro').lerSerieTemporalID()
         for i in self.dados:
-            r = str(" WHEN '%s'  THEN '%s'" % (i[1], i[0]))
+            r = str(" WHEN (Serie_Temporal_ID = %s and Data_e_Hora = '%s')  THEN '%s'" % (id, i[1], i[0]))
             stri += r
             nDadosAdd += 1
-            nDados += 1
-            if nDados == 400 or nDadosAdd == len(self.dados):
-                sql = "UPDATE Serie_Temporal SET Dado = CASE Data_e_Hora" + stri + " ELSE Dado END"
+            if nDadosAdd == len(self.dados):
+                sql = "UPDATE Serie_Temporal SET Dado = CASE" + stri + " ELSE Dado END"
+                print('aqui')
                 self.db.cursor.execute(sql)
                 self.db.commit_db()
                 print('%d por cento  Concluído' % (nDadosAdd/len(self.dados)*100))
-                stri = ''
-                nDados = 0
 
         self.db.close_db()

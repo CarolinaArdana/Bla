@@ -39,14 +39,14 @@ listaNivelConstencia = ['Consistido', 'Bruto', 'Bruto e Consistido']
 listaDiscretizacao = ['Dia', 'Mês', 'Ano']
 
 get = run('BancoHidro')
-'''
+
 inserir.inserirDados(listaReducao, get.NomeBD).Reducao()
 inserir.inserirDados(listaVariavel, get.NomeBD).Variavel()
 inserir.inserirDados(listaTipoDePosto, get.NomeBD).Tipo_Posto()
 inserir.inserirDados(listaUnidade, get.NomeBD).Unidade()
 inserir.inserirDados(listaNivelConstencia, get.NomeBD).Nivel_Consistencia()
 inserir.inserirDados(listaDiscretizacao, get.NomeBD).Discretizacao()
-'''
+
 for i in [['vazoes', 'ANA'],['vazoesp', 'ANA'],['xingo', 'ONS']]:
     get.getDados(i[0], i[1], 'Fluviométrico')
 

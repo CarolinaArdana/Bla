@@ -80,7 +80,15 @@ class Selecao(object):
         sql = "SELECT * FROM serie_temporal WHERE Serie_Temporal_ID in (" + stri2[:-2] + ")" + " and Data_e_Hora in (" + stri[:-2] + ")"
         self.db.cursor.execute(sql)
         Lista = self.db.cursor.fetchall()
-        for i in Lista:
-            print(i)
+        self.db.close_db()
+        return Lista
+
+    def lerSerieTemporalDadosAnoHi(self, SerieTemporalID, ListaDatas):
+        idS = SerieTemporalID
+        Lista = []
+        for i in ListaDatas:
+            sql = "SELECT Data_e_Hora, Dado FROM serie_temporal WHERE Serie_Temporal_ID in (%s) and Data_e_Hora in ('%s')" % (idS, i)
+            self.db.cursor.execute(sql)
+            Lista.append(self.db.cursor.fetchone())
         self.db.close_db()
         return Lista

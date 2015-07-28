@@ -68,16 +68,8 @@ class Selecao(object):
             id = int(id[0])
         return id
 
-    def lerSerieTemporalDados(self, SerieTemporalID, anoInicio = 1931, anoFinal = 2014):
-        datas = Datas.Datas(anoInicio, anoFinal)
-        datas.Rdata()
-        stri = ''
-        stri2 = ''
-        for i in datas.ListaDatas:
-            r = str("'%s', " % i[1])
-            stri2 += "%s, " % SerieTemporalID
-            stri += r
-        sql = "SELECT * FROM serie_temporal WHERE Serie_Temporal_ID in (" + stri2[:-2] + ")" + " and Data_e_Hora in (" + stri[:-2] + ")"
+    def lerSerieTemporalDados(self, SerieTemporalID):
+        sql = """SELECT * FROM serie_temporal WHERE Serie_Temporal_ID = %s""" % SerieTemporalID
         self.db.cursor.execute(sql)
         Lista = self.db.cursor.fetchall()
         self.db.close_db()
@@ -92,3 +84,4 @@ class Selecao(object):
             Lista.append(self.db.cursor.fetchone())
         self.db.close_db()
         return Lista
+

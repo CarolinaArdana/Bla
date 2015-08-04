@@ -14,7 +14,7 @@ class Series(object):
         anoSerie = Ano.Ano(self.nome_db, self.TemporalID, self.anoInicio, self.anoFinal)
 
         if self.TipoAno == 'Civil':
-            lista = anoSerie.AnoCivil.items()
+            lista = anoSerie.AnoCivil().items()
         elif self.TipoAno == 'Hidrologico':
             lista = anoSerie.anoHidrologico().items()
 
@@ -44,12 +44,10 @@ class Series(object):
         return vazoesMaxParcial
 
 
-a = Series('BancoHidro','Hidrologico', 1,1931, 2014)
+a = Series('BancoHidro','Hidrologico', 2,1985, 2012)
 vazao = []
-for i in a.serieMaxParcial(4000).items():
-    print(i)
-'''
-for i in a.serieMaxParcial(4000).items():
+
+for i in a.serieMaxAnual().items():
     vazao.append(i[1])
     if i[1] == -9999.9:
         vazao.remove(-9999.9)
@@ -60,9 +58,8 @@ ind = 1
 for i in vazao:
     pro = ind/(n+1)
     tem = 1/pro
+    res.append("%i;%.2f;%.4f;%.2f" % (ind, i, pro, tem))
     ind += 1
-    res.append("%.2f:%.4f:%.2f" % (i, pro, tem))
-print("Vazao:Prop:TempoR")
+print("i;Vazao;Prop;TempoR")
 for i in res:
     print(i)
-'''

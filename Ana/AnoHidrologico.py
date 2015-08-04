@@ -11,11 +11,13 @@ class Ano(object):
 
     def anoHidrologico(self):
         ano = s.Selecao(self.nome_db).lerSerieTemporalDados(self.TemporalID)
-        dic = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
+        dic = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: []}
         for i in ano:
             for j in dic:
                 if j == int(i[1][3:5]):
-                    dic[j] += float(i[2])
+                    dic[j].append(float(i[2]))
+        for i in dic:
+            dic[i] = sum(dic[i])/len(dic[i])
 
         Lista = (list(dic.values()))
         mes = Lista.index(min(Lista))+1
@@ -61,8 +63,7 @@ class Ano(object):
             datas = []
         return anosCivil
 '''
-a = Ano('BancoHidro', 1, 1999, 2014)
-
-for i in a.AnoCivil().items():
+a = Ano('BancoHidro', 3, 1995, 2012)
+for i in a.anoHidrologico().items():
     print(i)
 '''

@@ -2,11 +2,12 @@ import conectando_db
 import Ana.SelecaoRegistro as s
 
 class inserirDados(object):
-    def __init__(self, dados, nome_db):
-        if (type(dados) == type([]) or type(dados) == type({}) or type(dados) == type(())):
-            self.dados = dados
-        else:
-            self.dados = dados
+    def __init__(self, nome_db, dados = None):
+        #if (type(dados) == type([]) or type(dados) == type({}) or type(dados) == type(())):
+        #    self.dados = dados
+        #else:
+
+        self.dados = dados
         self.nome_db = nome_db
         self.db = conectando_db.Connect(self.nome_db)
 
@@ -37,15 +38,19 @@ class inserirDados(object):
         if (s.Selecao('BancoHidro').lerPosto(Fonte, Codigo) == None):
             sql = "INSERT INTO Posto(Tipo_Posto_ID, Fonte_ID, Codigo_Ana) "\
                   "VALUES(%s, %s,'%s')" %(Tipo_Posto_ID, Fonte_ID, Codigo)
-            print(sql)
             self.db.cursor.execute(sql)
             self.db.commit_db()
             self.db.close_db()
-    def Serie_Original(self):
-        stri = ''
-        for i in self.dados:
-            r = str(", (%s, '%s', %s, %s, %s, %s, %s)" % (i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
-            stri += r
+    def Serie_Original(self,Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao, Unidade):
+        Posto_ID = s.Selecao(self.nome_db).lerPosto(Fonte, Codigo)
+        Variavel_ID = s.Selecao(self.nome_db).lerVariavel(Variavel)
+        Tipo_Dado_ID = s.Selecao(self.nome_db).lerNivelConsistencia(Tipo_Dados)
+        Discretizacao_ID = s.Selecao(self.nome_db).lerDiscretizacao(Discretizacao)
+        Unidade_ID = s.Selecao(self.nome_db).lerUnidade(Unidade)
+        Serie_Temporal_ID = s.Selecao(self.nome_db).lerSerieTemporalID()
+
+        stri = str("(%s, '%s', %s, %s, %s, %s, %s)" %
+                   (Posto_ID, Arquivo_Fonte_Data, Variavel_ID, Tipo_Dado_ID, Discretizacao_ID, Unidade_ID, Serie_Temporal_ID))
         sql = "INSERT INTO Serie_Original(" \
               "Posto_ID, " \
               "Arquivo_Fonte_Data, " \
@@ -53,20 +58,25 @@ class inserirDados(object):
               "Tipo_Dado_ID, " \
               "Discretizacao_ID, " \
               "Unidade_ID, " \
-              "Serie_Temporal_ID) VALUES" + stri[2:]
+              "Serie_Temporal_ID) VALUES" + stri
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def Serie_Reduzida(self):
-        stri = ''
-        for i in self.dados:
-            r = str(", (%i, %i, %i, %i)" % (i[0], i[1], i[2], i[3]))
-            stri += r
+    def Serie_Reduzida(self, Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao_Orig, Unidade, Discretizacao_Red, Reducao):
+        Serie_Original = s.Selecao(self.nome_db).lerSerieOriginal(Fonte, Codigo, Arquivo_Fonte_Data,
+                                                                     Variavel, Tipo_Dados, Discretizacao_Orig,
+                                                                     Unidade)
+        Discretizacao_ID = s.Selecao(self.nome_db).lerDiscretizacao(Discretizacao_Red)
+        Reducao_ID = s.Selecao(self.nome_db).lerReducao(Reducao)
+        print(Serie_Original)
+        Serie_Original_ID = Serie_Original[0]
+        Serie_Temporal_ID = Serie_Original[1]
+        stri = str("(%s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID, Serie_Temporal_ID))
         sql = "INSERT INTO Serie_Reduzida(" \
               "Serie_Original_ID, " \
               "Discretizacao_ID," \
               "Reducao_ID," \
-              "Serie_Temporal_ID) VALUES" + stri[1:]
+              "Serie_Temporal_ID) VALUES" + stri
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()

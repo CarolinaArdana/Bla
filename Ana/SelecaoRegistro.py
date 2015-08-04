@@ -51,17 +51,37 @@ class Selecao(object):
     def lerVariavel(self, Variavel):
         sql = "SELECT Variavel_ID FROM Variavel WHERE Variavel = '%s'" % Variavel
         self.db.cursor.execute(sql)
-        return self.db.cursor.fetchone[0]
+        id = self.db.cursor.fetchone()
+        print(id)
+        return id[0]
 
     def lerUnidade(self, Unidade):
         sql = "SELECT Unidade_ID FROM Unidade WHERE Tipo = '%s'" % Unidade
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
 
+    def lerSerieOriginal(self, Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao_Orig, Unidade):
+        Posto_ID = self.lerPosto(Fonte, Codigo)
+        Variavel_ID = self.lerVariavel(Variavel)
+        Tipo_Dados_ID = self.lerNivelConsistencia(Tipo_Dados)
+        Discretizacao_ID = self.lerDiscretizacao(Discretizacao_Orig)
+        Unidade_ID = self.lerUnidade(Unidade)
+
+        sql = "SELECT Serie_Original_ID, Serie_Temporal_ID FROM Serie_Original WHERE " \
+              "Posto_ID = %s " \
+              "and Variavel_ID = %s " \
+              "and Tipo_Dado_ID = %s " \
+              "and Discretizacao_ID = %s " \
+              "and Unidade_ID = %s" % (Posto_ID, Variavel_ID, Tipo_Dados_ID, Discretizacao_ID, Unidade_ID)
+        self.db.cursor.execute(sql)
+        id = self.db.cursor.fetchone()
+        self.db.close_db()
+        return id
+
     def lerSerieTemporalID(self):
         self.db.cursor.execute("SELECT MAX (Serie_Temporal_ID) FROM Serie_Temporal")
         id = self.db.cursor.fetchone()
-        print(id)
+        self.db.close_db()
         if id[0] == None:
             id = 0
         else:

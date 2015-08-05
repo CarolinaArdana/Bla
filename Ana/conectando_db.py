@@ -7,7 +7,7 @@ class Connect(object):
         self.conn = sqlite3.connect('%s.db' % self.nome_db)
         self.cursor = self.conn.cursor()
 
-        print("Banco: %s " % nome_db)
+        print("Banco: %s" % nome_db)
 
     def close_db(self):
         if self.conn:

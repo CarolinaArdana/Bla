@@ -5,12 +5,10 @@ class Selecao(object):
     def __init__(self, nome_db):
         self.nome_db = nome_db
         self.db = conectando_db.Connect(self.nome_db)
-
     def lerDiscretizacao(self, Discretizacao):
         sql = "SELECT Discretizacao_ID FROM Discretizacao WHERE Tipo = '%s'" % Discretizacao
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
-
     def lerFonte(self, Fonte):
         sql = "SELECT Fonte_ID FROM Fonte WHERE Fonte = '%s'" % Fonte
         print(sql)
@@ -20,12 +18,10 @@ class Selecao(object):
             return id
         else:
             return id[0]
-
     def lerNivelConsistencia(self, Nivel):
         sql = "SELECT Tipo_Dados_ID FROM Nivel_Consistencia WHERE Nivel = '%s'" % Nivel
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
-
     def lerPosto(self, Fonte, Codigo_ANA):
         Fonte_ID = self.lerFonte(Fonte)
         sql = "SELECT Posto_ID FROM Posto WHERE " \
@@ -37,29 +33,24 @@ class Selecao(object):
             return id
         else:
             return id[0]
-
     def lerReducao(self, Reducao):
         sql = "SELECT Reducao_ID FROM Reducao WHERE Tipo = '%s'" % Reducao
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
-
     def lerTipoPosto(self, Tipo):
         sql = "SELECT Tipo_Posto_ID FROM Tipo_Posto WHERE Tipo = '%s'" % Tipo
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
-
     def lerVariavel(self, Variavel):
         sql = "SELECT Variavel_ID FROM Variavel WHERE Variavel = '%s'" % Variavel
         self.db.cursor.execute(sql)
         id = self.db.cursor.fetchone()
         print(id)
         return id[0]
-
     def lerUnidade(self, Unidade):
         sql = "SELECT Unidade_ID FROM Unidade WHERE Tipo = '%s'" % Unidade
         self.db.cursor.execute(sql)
         return self.db.cursor.fetchone()[0]
-
     def lerSerieOriginal(self, Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao_Orig, Unidade):
         Posto_ID = self.lerPosto(Fonte, Codigo)
         Variavel_ID = self.lerVariavel(Variavel)
@@ -77,7 +68,6 @@ class Selecao(object):
         id = self.db.cursor.fetchone()
         self.db.close_db()
         return id
-
     def lerSerieTemporalID(self):
         self.db.cursor.execute("SELECT MAX (Serie_Temporal_ID) FROM Serie_Temporal")
         id = self.db.cursor.fetchone()
@@ -87,14 +77,12 @@ class Selecao(object):
         else:
             id = int(id[0])
         return id
-
     def lerSerieTemporalDados(self, SerieTemporalID):
         sql = """SELECT * FROM serie_temporal WHERE Serie_Temporal_ID = %s""" % SerieTemporalID
         self.db.cursor.execute(sql)
         Lista = self.db.cursor.fetchall()
         self.db.close_db()
         return Lista
-
     def lerSerieTemporalDadosAnoHi(self, SerieTemporalID, ListaDatas):
         idS = SerieTemporalID
         Lista = []
@@ -104,4 +92,3 @@ class Selecao(object):
             Lista.append(self.db.cursor.fetchone())
         self.db.close_db()
         return Lista
-

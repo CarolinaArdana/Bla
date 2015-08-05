@@ -37,17 +37,17 @@ class run():
         self.dados = LerANA.dados
         self.CodigoANA = LerANA.codigo
         self.DatasSerie = Datas.ListaDatas
-'''
+
 listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média']
 listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
 listaVariavel = ['Precipitação', 'Intercepção', 'Evapotranspiração', 'Infiltração', 'Escoamento']
 listaUnidade = ['m³/s', 'mm', 'l/s']
 listaNivelConstencia = ['Consistido', 'Bruto', 'Bruto e Consistido']
 listaDiscretizacao = ['Dia', 'Mês', 'Ano']
-'''
+
 get = run('BancoHidro')
 get.getDados('VAZOES', 'ANA', 'Fluviométrico', 'Escoamento', 'Bruto e Consistido', 'm³/s', 'Dia', 'Ano', 'Máxima')
-'''
+
 inserir.inserirDados(get.NomeBD, listaReducao).Reducao()
 inserir.inserirDados(get.NomeBD, listaVariavel).Variavel()
 inserir.inserirDados(get.NomeBD, listaTipoDePosto).Tipo_Posto()
@@ -62,7 +62,7 @@ atualizar.atualizaDados(get.NomeBD, get.dados).atualizarDadosSerieTemporal()
 inserir.inserirDados(get.NomeBD).Serie_Original(get.Fonte, get.CodigoANA, get.Arquivo_Fonte_Data,
                                                 get.Variavel, get.Tipo_Dados, get.Discretizacao_Orig,
                                                 get.Unidade)
-'''
+
 inserir.inserirDados(get.NomeBD).Serie_Reduzida(get.Fonte, get.CodigoANA, get.Arquivo_Fonte_Data,
                                                 get.Variavel, get.Tipo_Dados, get.Discretizacao_Orig,
                                                 get.Unidade, get.Discretizacao_Red, get.Reducao)

@@ -45,7 +45,6 @@ class Selecao(object):
         sql = "SELECT Variavel_ID FROM Variavel WHERE Variavel = '%s'" % Variavel
         self.db.cursor.execute(sql)
         id = self.db.cursor.fetchone()
-        print(id)
         return id[0]
     def lerUnidade(self, Unidade):
         sql = "SELECT Unidade_ID FROM Unidade WHERE Tipo = '%s'" % Unidade

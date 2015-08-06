@@ -37,7 +37,6 @@ class Series(object):
     def serieMaxParcial(self, criterioParcial):
         vazoesMaxParcial = {}
 
-
         for i in self.Dados().items():
             maxp = []
             aux = []
@@ -52,10 +51,10 @@ class Series(object):
                     data = []
                     aux = []
             vazoesMaxParcial[i[0]] = maxp
-            #vazoesMaxParcial[i[0]] = [x for x in aux if x > criterioParcial]
         return vazoesMaxParcial
 
 
+'''
 a = Series('BancoHidro','Hidrologico', 1,1980, 2014)
 
 vazao = []
@@ -104,3 +103,4 @@ plt.xlabel('Tempo de Retorno')
 plt.axis([0, 40, 0, 20000])
 plt.legend(numpoints = 1, loc = "best")
 plt.show()
+'''

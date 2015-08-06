@@ -67,6 +67,8 @@ class Selecao(object):
         id = self.db.cursor.fetchone()
         self.db.close_db()
         return id
+    def lerSerieReduzida(self, SerieReduzidaID):
+        sql = "SELECT  FROM Serie_Reduzida WHERE Serie_Reduzida_ID = %s" % SerieReduzidaID
     def lerSerieTemporalID(self):
         self.db.cursor.execute("SELECT MAX (Serie_Temporal_ID) FROM Serie_Temporal")
         id = self.db.cursor.fetchone()

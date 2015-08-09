@@ -44,23 +44,6 @@ class Ano(object):
 
         return datas
 
-    def AnoCivil(self):
-        datas = []
-        for i in range(self.anoInicioSerie, self.anoFinalSerie+1):
-            anoinicio = i
-            inicio = datetime.datetime(anoinicio,1,1)
-            if ((anoinicio)%4) == 0: dias = 365
-            else: dias = 364
-            fim = inicio + relativedelta(days=+dias)
-
-            for i in p.date_range(inicio,fim):
-                data = (datetime.datetime.strptime(str(i), '%Y-%m-%d %H:%M:%S').
-                            date().strftime('%Y/%m/%d'))
-                aano, ames, adia = data.split('/')
-
-                datas.append(datetime.datetime(int(aano),int(ames),int(adia),9,00).
-                                           strftime('%d/%m/%Y %H:%M'))
-        return datas
 '''
 a = Ano('BancoHidro', 1, 1980, 2014)
 for i in a.anoHidrologico():

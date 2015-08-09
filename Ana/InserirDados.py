@@ -74,17 +74,25 @@ class inserirDados(object):
         Serie_Temporal_ID = Serie_Original[1]
         if parcial_Mi == None and parcial_U == None:
             stri = str("(%s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID, Serie_Temporal_ID))
+            sql = "INSERT INTO Serie_Reduzida(" \
+                  "Serie_Original_ID, " \
+                  "Discretizacao_ID," \
+                  "Reducao_ID," \
+                  "Serie_Temporal_ID) VALUES" + stri
         else:
             stri = str("(%s, %s, %s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID,
                                                      Serie_Temporal_ID, parcial_Mi, parcial_U))
-        sql = "INSERT INTO Serie_Reduzida(" \
-              "Serie_Original_ID, " \
-              "Discretizacao_ID," \
-              "Reducao_ID," \
-              "Serie_Temporal_ID) VALUES" + stri
+            sql = "INSERT INTO Serie_Reduzida(" \
+                  "Serie_Original_ID, " \
+                  "Discretizacao_ID," \
+                  "Reducao_ID," \
+                  "Serie_Temporal_ID," \
+                  "Parcial_Mi," \
+                  "Parcial_U) VALUES" + stri
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
+
     def Nivel_Consistencia(self):
         stri = ''
         for i in self.dados:

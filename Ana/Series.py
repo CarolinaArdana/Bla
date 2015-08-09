@@ -1,5 +1,3 @@
-import Ana.DadosVazaoDB as Dados
-
 class Series(object):
     def __init__(self, dados):
         self.dados = dados

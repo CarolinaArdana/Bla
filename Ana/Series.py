@@ -1,60 +1,51 @@
-import datetime
-import Ana.SelecaoRegistro as s
-import Ana.AnoHidrologico as Ano
-import matplotlib.pyplot as plt
+import Ana.DadosVazaoDB as Dados
 
 class Series(object):
-    def __init__(self, nome_db, TipoAno, TemporalID, anoInicio = 1931, anoFinal = 2014):
-        self.nome_db = nome_db
-        self.TipoAno = TipoAno
-        self.TemporalID = TemporalID
-        self.anoInicio = anoInicio
-        self.anoFinal = anoFinal
-    def Dados(self):
-        dicDados = {}
-        anoSerie = Ano.Ano(self.nome_db, self.TemporalID, self.anoInicio, self.anoFinal)
+    def __init__(self, dados):
+        self.dados = dados
 
-        if self.TipoAno == 'Civil':
-            lista = anoSerie.AnoCivil().items()
-        elif self.TipoAno == 'Hidrologico':
-            lista = anoSerie.anoHidrologico().items()
-
-        for i in lista:
-            dado = s.Selecao(self.nome_db).lerSerieTemporalDadosAnoHi(self.TemporalID,i[1])
-            dicDados[i[0]] = dado
-        return dicDados
     def serieMaxAnual(self):
-        vazoesMax = {}
+        maxp = []
+        aux = []
+        data = []
+        for i in self.dados:
+            if int(i[0][0:2]) == 31 and int(i[0][3:5]) == 12:
+                data.append(i[0])
+                aux.append(float(i[1]))
+                indx = aux.index(max(aux))
+                maxp.append([data[indx], max(aux)])
+                data = []
+                aux = []
+            else:
+                data.append(i[0])
+                aux.append(float(i[1]))
 
-        for i in self.Dados().items():
-            aux = []
-            data = []
-            for j in i[1]:
-                aux.append(float(j[1]))
-                data.append(j[0])
-            vazoesMax[i[0]] = ([data[aux.index(max(aux))],max(aux)])
-        return vazoesMax
+        return maxp
+
     def serieMaxParcial(self, criterioParcial):
-        vazoesMaxParcial = {}
-
-        for i in self.Dados().items():
-            maxp = []
-            aux = []
-            data = []
-            for j in i[1]:
-                if float(j[1]) > criterioParcial:
-                    aux.append(float(j[1]))
-                    data.append(j[0][0:10])
-                elif float(j[1]) < criterioParcial and len(aux) > 0:
-                    indx = aux.index(max(aux))
-                    maxp.append([data[indx], max(aux)])
-                    data = []
-                    aux = []
-            vazoesMaxParcial[i[0]] = maxp
-        return vazoesMaxParcial
-
+        maxp = []
+        aux = []
+        data = []
+        for i in self.dados:
+            if float(i[1]) > criterioParcial:
+                aux.append(float(i[1]))
+                data.append(i[0][0:10])
+            elif float(i[1]) < criterioParcial and len(aux) > 0:
+                indx = aux.index(max(aux))
+                maxp.append([data[indx], max(aux)])
+                data = []
+                aux = []
+        return maxp
 
 '''
+da = Dados.DadosVazao('BancoHidro','Civil', 1, 1980, 2014)
+dados = da.Dados()
+
+a = Series(dados)
+ser = a.serieMaxAnual()
+for i in ser:
+    print(i)
+
 a = Series('BancoHidro','Hidrologico', 1,1980, 2014)
 
 vazao = []

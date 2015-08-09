@@ -62,7 +62,8 @@ class inserirDados(object):
         self.db.cursor.execute(sql)
         self.db.commit_db()
         self.db.close_db()
-    def Serie_Reduzida(self, Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao_Orig, Unidade, Discretizacao_Red, Reducao):
+    def Serie_Reduzida(self, Fonte, Codigo, Arquivo_Fonte_Data, Variavel, Tipo_Dados, Discretizacao_Orig,
+                       Unidade, Discretizacao_Red, Reducao, parcial_Mi=None, parcial_U=None):
         Serie_Original = s.Selecao(self.nome_db).lerSerieOriginal(Fonte, Codigo, Arquivo_Fonte_Data,
                                                                      Variavel, Tipo_Dados, Discretizacao_Orig,
                                                                      Unidade)
@@ -71,7 +72,11 @@ class inserirDados(object):
         print(Serie_Original)
         Serie_Original_ID = Serie_Original[0]
         Serie_Temporal_ID = Serie_Original[1]
-        stri = str("(%s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID, Serie_Temporal_ID))
+        if parcial_Mi == None and parcial_U == None:
+            stri = str("(%s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID, Serie_Temporal_ID))
+        else:
+            stri = str("(%s, %s, %s, %s, %s, %s)" % (Serie_Original_ID, Discretizacao_ID, Reducao_ID,
+                                                     Serie_Temporal_ID, parcial_Mi, parcial_U))
         sql = "INSERT INTO Serie_Reduzida(" \
               "Serie_Original_ID, " \
               "Discretizacao_ID," \

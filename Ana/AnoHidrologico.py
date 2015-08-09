@@ -23,8 +23,9 @@ class Ano(object):
         mes = Lista.index(min(Lista))+1
         return mes
 
-    def anoHidrologico(self, mesInicio):
-        anosHid = {}
+    def anoHidrologico(self):
+        print(self.mesInicioAnoHidrologico())
+        mesInicio = int(input('Mês Inicio Ano Hidrológico'))
         datas = []
         for i in range(self.anoInicioSerie, self.anoFinalSerie):
             anoinicio = i
@@ -40,12 +41,10 @@ class Ano(object):
 
                 datas.append(datetime.datetime(int(aano),int(ames),int(adia),9,00).
                                            strftime('%d/%m/%Y %H:%M'))
-                anosHid[anoinicio] = datas
-            datas = []
-        return anosHid
+
+        return datas
 
     def AnoCivil(self):
-        anosCivil = {}
         datas = []
         for i in range(self.anoInicioSerie, self.anoFinalSerie+1):
             anoinicio = i
@@ -61,15 +60,9 @@ class Ano(object):
 
                 datas.append(datetime.datetime(int(aano),int(ames),int(adia),9,00).
                                            strftime('%d/%m/%Y %H:%M'))
-                anosCivil[anoinicio] = datas
-            datas = []
-        return anosCivil
-
+        return datas
 '''
-a = Ano('BancoHidro', 1, 1995, 2012)
-mesrec = a.mesInicioAnoHidrologico()
-print('Mês: %s' % mesrec)
-mes = int(input('Mês Inicio Ano Hidrológico: '))
-for i in a.anoHidrologico(mes).items():
+a = Ano('BancoHidro', 1, 1980, 2014)
+for i in a.anoHidrologico():
     print(i)
 '''

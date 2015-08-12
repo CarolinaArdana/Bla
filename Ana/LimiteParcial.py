@@ -1,5 +1,3 @@
-import Ana.DadosVazaoDB as se
-
 class LimiteParcial(object):
     def __init__(self, dados):
         self.dados = dados
@@ -21,7 +19,6 @@ class LimiteParcial(object):
         vetor = []
         vetor2 = []
         data = []
-        print(self.dados)
         for i in self.dados:
             vetor.append(float(i[1]))
             vetor2.append(float(i[1]))

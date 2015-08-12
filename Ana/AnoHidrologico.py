@@ -25,7 +25,7 @@ class Ano(object):
 
     def anoHidrologico(self):
         print(self.mesInicioAnoHidrologico())
-        mesInicio = int(input('Mês Inicio Ano Hidrológico'))
+        mesInicio = int(input('Mês Inicio Ano Hidrológico: '))
         datas = []
         for i in range(self.anoInicioSerie, self.anoFinalSerie):
             anoinicio = i

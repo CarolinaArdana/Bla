@@ -44,7 +44,7 @@ class run():
         self.DatasSerie = Datas.ListaDatas
 
 get = run('BancoHidro')
-get.getDados('Xingoreal', 'CHESF', 'Fluviométrico', 'Escoamento', 'Consistido', 'm³/s', 'Dia', 'Ano', 'Máxima')
+get.getDados('VAZOES', 'ANA', 'Fluviométrico', 'Escoamento', 'Consistido', 'm³/s', 'Dia', 'Ano', 'Máxima')
 '''
 listaReducao = ['Mínima', 'Máxima', 'Falha', 'Média', 'Parcial']
 listaTipoDePosto = ['Fluviométrico', 'Pluviométrico']
@@ -59,19 +59,20 @@ inserir.inserirDados(get.NomeBD, listaTipoDePosto).Tipo_Posto()
 inserir.inserirDados(get.NomeBD, listaUnidade).Unidade()
 inserir.inserirDados(get.NomeBD, listaNivelConstencia).Nivel_Consistencia()
 inserir.inserirDados(get.NomeBD, listaDiscretizacao).Discretizacao()
-
+'''
 inserir.inserirDados(get.NomeBD, get.Fonte).Fonte(get.Fonte)
 inserir.inserirDados(get.NomeBD, get.CodigoANA).Posto(get.Tipo_Posto, get.Fonte)
 inserir.inserirDados(get.NomeBD, get.DatasSerie).Serie_Temporal()
 atualizar.atualizaDados(get.NomeBD, get.dados).atualizarDadosSerieTemporal()
+'''
 inserir.inserirDados(get.NomeBD).Serie_Original(get.Fonte, get.CodigoANA, get.Arquivo_Fonte_Data,
                                                 get.Variavel, get.Tipo_Dados, get.Discretizacao_Orig,
                                                 get.Unidade)
-'''
+
 get = run('BancoHidro')
 get.getDados('Xingoreal', 'CHESF', 'Fluviométrico', 'Escoamento', 'Consistido', 'm³/s', 'Dia', 'Ano', 'Parcial')
 for i in [1.65, 2, 3]:
-    dados = da.DadosVazao('BancoHidro',2,1995,2009).Dados()
+    dados = da.DadosVazao('BancoHidro',2,1995,2012).Dados()
     parcial_Mi = i
     parcial_U = li.LimiteParcial(dados).AchaLimite(parcial_Mi)
     inserir.inserirDados(get.NomeBD).Serie_Reduzida(get.Fonte, get.CodigoANA, get.Arquivo_Fonte_Data,
@@ -83,3 +84,4 @@ get.getDados('Xingoreal', 'CHESF', 'Fluviométrico', 'Escoamento', 'Consistido',
 inserir.inserirDados(get.NomeBD).Serie_Reduzida(get.Fonte, get.CodigoANA, get.Arquivo_Fonte_Data,
                                                     get.Variavel, get.Tipo_Dados, get.Discretizacao_Orig,
                                                     get.Unidade, get.Discretizacao_Red, get.Reducao)
+'''
